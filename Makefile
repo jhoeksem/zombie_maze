@@ -3,7 +3,7 @@ CFLAGS = -g -Wall
 TARGET = main
 OBJS = main.o parser.o object.o npc.o
 
-all: $(TARGET)
+all: $(TARGET) $(MAP)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
