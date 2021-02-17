@@ -1,9 +1,9 @@
 #include <iostream>
-#include <cstdlib>
+using namespace std;
 
 int intro() {
-	std::system("clear");
-	std::cout << "Welcome to the ZOMBIE MAZE." << std::endl;
+	system("clear");
+	cout << "Welcome to the ZOMBIE MAZE." << endl;
 	return 0;
 }
 

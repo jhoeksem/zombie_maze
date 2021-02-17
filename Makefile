@@ -5,7 +5,7 @@ CC = g++
 CFLAGS = -Wall
 
 # build target
-TARGET = first
+TARGET = parser
 
 all: $(TARGET)
 
