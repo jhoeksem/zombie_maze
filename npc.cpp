@@ -1,17 +1,9 @@
 #include <string>
+#include "npc.h"
 using namespace std;
 
-struct NPC {
-	string id;
-	string name;
-	string description;
-	string whichRoom;
-	// combat stats
-	int health;
-	int strength;
-	bool friendly;
 
-	bool isThreat() {
+	bool NPC::isThreat() {
 		if(health > 0 and friendly == false){
 			return true;
 		}
@@ -19,4 +11,3 @@ struct NPC {
 			return false;
 		}
 	}
-};
