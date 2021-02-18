@@ -14,6 +14,9 @@ parser.o: parser.cpp parser.h
 map.o: map.cpp map.h
 	$(CC) $(CFLAGS) -c map.cpp
 
+character.o: character.cpp character.h
+	$(CC) $(CFLAGS) -c character.cpp
+
 object.o: object.cpp object.h
 	$(CC) $(CFLAGS) -c object.cpp
 
