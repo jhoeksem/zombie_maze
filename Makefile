@@ -1,16 +1,21 @@
-# compiler
 CC = g++
-
-# compiler flags
 CFLAGS = -Wall
-
-# build target
-TARGET = parser
+TARGET = main
+OBJS = main.o parser.o object.o
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).cpp
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+
+main.o: main.cpp parser.h object.h
+	$(CC) $(CFLAGS) -c main.cpp
+
+parser.o: parser.cpp parser.h
+	$(CC) $(CFLAGS) -c parser.cpp
+
+object.o: object.cpp object.h
+	$(CC) $(CFLAGS) -c object.cpp
 
 clean: 
-	rm -f $(TARGET)
+	rm -f $(TARGET) $(OBJS)

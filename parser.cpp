@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 int intro() {
@@ -14,6 +15,13 @@ string getInput() {
 	return input;
 }
 
+int quit() {
+	cout << endl;
+	cout << "Until next time." << endl;
+	cout << endl;
+	return 0;
+}
+
 int help() {
 
 	cout << endl;
@@ -21,7 +29,7 @@ int help() {
 	cout << endl;
 	cout << "These are the commands you may use:" << endl;
 	cout << "help" << endl;
-	cout << "\treturns help screen with list of commands." << endl;
+	cout << "\tprints help screen with list of commands." << endl;
 	cout << "quit" << endl;
 	cout << "\texit the game." << endl;
 	cout << "move" << endl;
@@ -36,23 +44,7 @@ int parseInput(string input) {
 		help();
 	}
 	else {
-		cout << "command recognized" << endl;	
+		cout << "That's not a phrase I'm familiar with" << endl;	
 	}
-	return 0;
-}
-
-int main() {
-	string input;
-
-	intro();
-	input = getInput();
-
-	while (input != "quit") {
-		parseInput(input);
-		input = getInput();
-	}
-	
-	cout << endl << "Until next time." << endl << endl;
-
 	return 0;
 }
