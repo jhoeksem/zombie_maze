@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "object.h"
 #include "npc.h"
+#include "map.h"
 using namespace std;
 
 int main() {

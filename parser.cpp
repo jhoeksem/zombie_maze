@@ -1,10 +1,14 @@
 #include <iostream>
 #include <string>
+#include "map.h"
 using namespace std;
+Map* currentChunk;
 
 int intro() {
 	system("clear");
+	currentChunk = BuildMap("0");
 	cout << "Welcome to the ZOMBIE MAZE." << endl;
+	cout << currentChunk->description << endl;
 	return 0;
 }
 
@@ -42,6 +46,43 @@ int help() {
 int parseInput(string input) {
 	if (input == "help") {
 		help();
+	} else if (input == "move"){
+		cout << "Which cardinal direction would you like to move?" << endl;
+		string input = getInput();	
+		if (input == "east"){
+			if (currentChunk->adjacentChunks[EAST] !=NULL){
+				currentChunk = currentChunk->adjacentChunks[EAST];
+				cout << currentChunk->description << endl;
+			} else{
+				cout << "That way is blocked.\n";
+			}
+		}
+		else if (input == "north"){
+			if (currentChunk->adjacentChunks[NORTH] !=NULL){
+				currentChunk = currentChunk->adjacentChunks[NORTH];
+				cout << currentChunk->description << endl;
+			} else{
+				cout << "That way is blocked.\n";
+			}
+		}
+		else if (input == "west"){
+			if (currentChunk->adjacentChunks[WEST] !=NULL){
+				currentChunk = currentChunk->adjacentChunks[WEST];
+				cout << currentChunk->description << endl;
+			} else{
+				cout << "That way is blocked.\n";
+			}
+		}
+		else if (input == "south"){
+			if (currentChunk->adjacentChunks[SOUTH] !=NULL){
+				 currentChunk = currentChunk->adjacentChunks[SOUTH];
+				cout << currentChunk->description << endl;
+			} else{
+				cout << "That way is blocked.\n";
+			}
+		} else{
+			cout << "that  is not a valid direction\n";
+		}
 	}
 	else {
 		cout << "That's not a phrase I'm familiar with" << endl;	

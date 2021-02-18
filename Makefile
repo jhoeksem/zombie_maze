@@ -1,15 +1,18 @@
 CC = g++
 CFLAGS = -g -Wall
 TARGET = main
-OBJS = main.o parser.o object.o npc.o
+OBJS = main.o parser.o object.o npc.o map.o
 
-all: $(TARGET)
+all: $(TARGET) $(MAP)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
 
 parser.o: parser.cpp parser.h
 	$(CC) $(CFLAGS) -c parser.cpp
+
+map.o: map.cpp map.h
+	$(CC) $(CFLAGS) -c map.cpp
 
 object.o: object.cpp object.h
 	$(CC) $(CFLAGS) -c object.cpp
