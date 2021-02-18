@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <string.h>
 using namespace std;
 
 // For directions I went with East=0, North=1, West=2, South=3
@@ -13,8 +14,11 @@ enum Directions{
 };
 class Map{
     public:
+        string name;
         string id; // An id number from 0-127
         string description; // Description of chunk in text
+        string postDescription; // Description of the chunk, after it has been completed
+        bool isCompleted; // Tells if the chunk has been completed
         string direction[4]; // Stores the ids of the neighbooring nodes. Not used after build time
         Map* adjacentChunks[4]; // Stores a pointer to the neighbooring nodes
         Map(string mapId);
@@ -27,10 +31,25 @@ Map::Map(string mapId){
     string line;
     ifstream myfile ("./chunks/"+mapId+".map");
     description = "";
+    postDescription="";
+    isCompleted=false;
     if (myfile.is_open()){
-        while ( getline (myfile, line) && line != "DIRECTIONS") {
+        //read in name
+        if ( getline (myfile, line)) {
+                name = line;
+            } else {
+                cerr << "File: " << mapId << " is incorrectly formatted\n";
+                exit(1);
+            } 
+            //read in description
+        while ( getline (myfile, line) && line != "POST") {
             description += line + '\n';
         }
+            //read in description
+        while ( getline (myfile, line) && line != "DIRECTIONS") {
+            postDescription += line + '\n';
+        }
+        //read in the adjancent chunks
         for (int i =0; i < 4; i++){
             if ( getline (myfile, line)) {
                 direction[i] = line;
@@ -55,7 +74,7 @@ Map* BuildMap(string mapId){
     Map* mapAddress = new Map(mapId);
     chunks[chunkNumber] = mapAddress;
     for ( int i = 0; i < 4; i++){
-        if (mapAddress->direction[i] != ""){
+        if (mapAddress->direction[i] != "NULL"){
             size_t chunkLength = mapAddress->direction[i].length();
             int adjacentChunkNumber = stoi(mapAddress->direction[i], &chunkLength);
             if( chunks[adjacentChunkNumber]){
@@ -64,13 +83,17 @@ Map* BuildMap(string mapId){
                 Map* adjacentChunk = BuildMap(mapAddress->direction[i]);
                 mapAddress->adjacentChunks[i] = adjacentChunk;
             }
+        } else {
+            mapAddress -> adjacentChunks[i] = 0;
         }
     }
     return mapAddress;
 }
 void Map::PrintChunk(){
  cout << "Id: " << id <<'\n';
+ cout << "Name: " << name << '\n';
  cout << "Description: " << description<< '\n';
+ cout << "Post Descrition: " << postDescription << '\n';
  cout << "East: " << direction[EAST]<< '\n';
  cout << "North: " << direction[NORTH]<< '\n';
  cout << "West: " << direction[WEST]<< '\n';
@@ -98,8 +121,10 @@ void printMap(Map* map, bool* visited){
     }
 }
 int main (){
+    memset((void*)&chunks, 0, sizeof(chunks));
     Map* map = BuildMap("0");
     bool visited[128];
+    memset((void*)&visited, 0, sizeof(visited));
     printMap(map, visited);
     return 0;
 }
