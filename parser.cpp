@@ -5,7 +5,7 @@ using namespace std;
 Map* currentChunk;
 
 int intro() {
-	system("clear");
+	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
 	cout << "Welcome to the ZOMBIE MAZE." << endl;
 	cout << currentChunk->description << endl;
