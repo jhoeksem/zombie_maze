@@ -7,8 +7,9 @@ Map* currentChunk;
 int intro() {
 	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
+	PopulateMap();
 	cout << "Welcome to the ZOMBIE MAZE." << endl;
-	cout << currentChunk->description << endl;
+	currentChunk->print();
 	return 0;
 }
 
@@ -52,7 +53,7 @@ int parseInput(string input) {
 		if (input == "east"){
 			if (currentChunk->adjacentChunks[EAST] !=NULL){
 				currentChunk = currentChunk->adjacentChunks[EAST];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
@@ -60,7 +61,7 @@ int parseInput(string input) {
 		else if (input == "north"){
 			if (currentChunk->adjacentChunks[NORTH] !=NULL){
 				currentChunk = currentChunk->adjacentChunks[NORTH];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
@@ -68,7 +69,7 @@ int parseInput(string input) {
 		else if (input == "west"){
 			if (currentChunk->adjacentChunks[WEST] !=NULL){
 				currentChunk = currentChunk->adjacentChunks[WEST];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
@@ -76,7 +77,7 @@ int parseInput(string input) {
 		else if (input == "south"){
 			if (currentChunk->adjacentChunks[SOUTH] !=NULL){
 				 currentChunk = currentChunk->adjacentChunks[SOUTH];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}

@@ -41,7 +41,7 @@ Map::Map(string mapId){
         }
         myfile.close();
     } else{
-        cerr << "Error trying to open: " << mapId << '\n';
+        cerr << "Error trying to open: " << mapId << endl;
         exit(1);
     }
 }
@@ -68,16 +68,70 @@ Map* BuildMap(string mapId){
             mapAddress -> adjacentChunks[i] = 0;
         }
     }
+
     return mapAddress;
 }
-void Map::PrintChunk(){
- cout << "Id: " << id <<'\n';
- cout << "Name: " << name << '\n';
- cout << "Description: " << description<< '\n';
- cout << "Post Descrition: " << postDescription << '\n';
- cout << "East: " << direction[EAST]<< '\n';
- cout << "North: " << direction[NORTH]<< '\n';
- cout << "West: " << direction[WEST]<< '\n';
+
+void PopulateMap(){
+    //create objects
+    // I assume the object files will be named as consecutive integers
+    int objectNum = 0;
+    Object* object = NULL;
+    do{
+        object = new Object(to_string(objectNum));
+        if(object->id != "-1"){
+            size_t stringLen = object->whichRoom.length();
+            int roomId = stoi(object->whichRoom, &stringLen);
+            if (roomId >=0 && roomId <128 && chunks[roomId]){
+                chunks[roomId]->objects.push_back(object);
+            } else{
+                cerr << "Recieved an invalid roomId " << roomId << "For object "<< objectNum << endl;
+                exit(1);
+            }
+        } else{
+            break;
+        }
+    }while(++objectNum);
+    int npcNum =0;
+    NPC* npc = NULL;
+    // create NPCS
+    // I assume the npc files will be named as consecutive integers
+    do{
+        npc = new NPC(to_string(npcNum));
+        if(npc->id != "-1"){
+            size_t stringLen = npc->whichRoom.length();
+            int roomId = stoi(npc->whichRoom, &stringLen);
+            if (roomId >=0 && roomId <128 && chunks[roomId]){
+                chunks[roomId]->npcs.push_back(npc);
+            } else{
+                cerr << "Recieved an invalid roomId " << roomId << "For object "<< npcNum << endl;
+                exit(1);
+            }
+        } else{
+            break;
+        }
+    }while(++npcNum);
+}
+
+void Map::print(){
+    cout << description << endl;
+    for (auto i = objects.begin(); i != objects.end(); i++){
+        (*i) -> print();
+    }
+    for (auto  i = npcs.begin(); i != npcs.end(); i++){
+        (*i)->print();
+    }
+
+}
+
+void Map::DebugPrintChunk(){
+ cout << "Id: " << id <<endl;
+ cout << "Name: " << name << endl;
+ cout << "Description: " << description<< endl;
+ cout << "Post Descrition: " << postDescription << endl;
+ cout << "East: " << direction[EAST]<< endl;
+ cout << "North: " << direction[NORTH]<< endl;
+ cout << "West: " << direction[WEST]<< endl;
  cout << "South: " << direction[SOUTH]<< "\n\n";
     
 }
@@ -90,14 +144,14 @@ void printMap(Map* map, bool* visited){
     if ( number >=0 && number < 128){
         if (!visited[number]){
             visited[number] = true;
-            map->PrintChunk();
+            map->DebugPrintChunk();
             for (int i =0; i< 4; i++){
                 printMap(map->adjacentChunks[i], visited);
             }
         }
 
     } else {
-        cerr << "Invalid chunk name found: " << map->id << '\n';
+        cerr << "Invalid chunk name found: " << map->id << endl;
         exit(1);
     }
 }
