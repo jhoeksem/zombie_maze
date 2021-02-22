@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c++11
 TARGET = main
 OBJS = main.o parser.o object.o npc.o map.o character.o
 
