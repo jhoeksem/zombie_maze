@@ -32,28 +32,42 @@ using namespace std;
 		if ( getline (myfile, line)) {
 			id = line;
 		} else {
-			cerr << "File: " << npcId << " is incorrectly formatted\n";
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
         //read in name
 		if ( getline (myfile, line)) {
 			name = line;
 		} else {
-			cerr << "File: " << npcId << " is incorrectly formatted\n";
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
         //read in room
 		if ( getline (myfile, line)) {
 			whichRoom = line;
 		} else {
-			cerr << "File: " << npcId << " is incorrectly formatted\n";
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
         //read in description
 		if ( getline (myfile, line)) {
 			description = line;
 		} else {
-			cerr << "File: " << npcId << " is incorrectly formatted\n";
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
+			exit(1);
+		}
+        //read in talking text
+		if ( getline (myfile, line)) {
+			talk = line;
+		} else {
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
+			exit(1);
+		}
+        //read in deadDescription
+		if ( getline (myfile, line)) {
+			deadDescription = line;
+		} else {
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
         //read in health
@@ -61,7 +75,7 @@ using namespace std;
 			size_t stringLen = line.length();
             health = stoi(line, &stringLen);
 		} else {
-			cerr << "File: " << npcId << " is incorrectly formatted\n";
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
         //read in strength
@@ -69,7 +83,7 @@ using namespace std;
 			size_t stringLen = line.length();
             strength = stoi(line, &stringLen);
 		} else {
-			cerr << "File: " << npcId << " is incorrectly formatted\n";
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
 		friendly = false;

@@ -10,6 +10,8 @@ struct NPC {
 	string id;
 	string name;
 	string description;
+	string talk;
+	string deadDescription;
 	string whichRoom;
 	// combat stats
 	int health;
