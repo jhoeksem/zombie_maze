@@ -11,6 +11,7 @@ struct Object {
 	string name;
 	string whichRoom;
 	string description;
+	int damage; 
 	void print();
 	Object(string objectId);
 };

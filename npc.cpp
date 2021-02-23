@@ -59,7 +59,7 @@ using namespace std;
         //read in health
 		if ( getline (myfile, line)) {
 			size_t stringLen = line.length();
-            health = stoi(line, &stringLen);
+            		health = stoi(line, &stringLen);
 		} else {
 			cerr << "File: " << npcId << " is incorrectly formatted\n";
 			exit(1);

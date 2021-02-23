@@ -45,6 +45,14 @@ Object::Object(string objectId){
 			cerr << "File: " << objectId << " is incorrectly formatted\n";
 			exit(1);
 		}
+	//read in damage
+		if ( getline (myfile, line)) {
+			size_t stringLen = line.length();
+		 	damage = stoi(line, &stringLen);
+		} else {
+			cerr << "File: " << objectId << " is incorrectly formatted\n";
+			exit(1);
+		}
 		myfile.close();
 		//return object;
 	} else{

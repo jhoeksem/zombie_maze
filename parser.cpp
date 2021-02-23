@@ -44,6 +44,14 @@ int help() {
 	return 0;
 }
 
+int npc_turn() {
+	for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+		cout << "There is an enemy in the room" << endl;
+		(*i) -> print();
+	}
+	return 0;
+}
+
 int parseInput(string input) {
 	if (input == "help") {
 		help();
