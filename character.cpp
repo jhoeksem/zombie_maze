@@ -1,13 +1,15 @@
 #include <string>
+#include "character.h"
 using namespace std;
 
-struct Character {
-	string name;
-	string description;
-	// health stats
-	int health;
-	int strength;
-        string inventory[5]; // not sure if this is actually allowed or not. might need to use a vector instead
+Character::Character(string n, string d, int h, int s){
+    name = n;
+    description = d;
+    health = h; 
+    strength = s;
+    for(int i =0; i < 5; i++){
+        inventory[i] = "empty";
+    }
+}
 
-};
 
