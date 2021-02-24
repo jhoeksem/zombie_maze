@@ -11,10 +11,11 @@ struct Character {
 	// health stats
 	int health;
 	int strength;
-        Object inventory[5]; // not sure if this is actually allowed or not. might need to use a vector instead
-
-
+        string inventory[5]; // not sure if this is actually allowed or not. might need to use a vector instead
+        Character(string name, string description, int health ,int strength);
 
 };
+
+
 
 #endif // CHARACTER_H

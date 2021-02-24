@@ -7,8 +7,19 @@ Map* currentChunk;
 int intro() {
 	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
-	cout << "Welcome to the ZOMBIE MAZE." << endl;
-	cout << currentChunk->description << endl;
+	PopulateMap();
+	ifstream f("intro.txt");
+	if(f.is_open()){
+		cout << f.rdbuf() << endl;
+		f.close();
+		string input;
+		getline(cin, input);
+		system("clear");
+	} else{
+		cerr << "intro.txt not found. exiting.\n";
+		exit(1);
+	}
+	currentChunk->print();
 	return 0;
 }
 
@@ -43,6 +54,14 @@ int help() {
 	return 0;
 }
 
+int npc_turn() {
+	for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+		cout << "There is an enemy in the room" << endl;
+		(*i) -> print();
+	}
+	return 0;
+}
+
 int parseInput(string input) {
 	if (input == "help") {
 		help();
@@ -52,7 +71,7 @@ int parseInput(string input) {
 		if (input == "east"){
 			if (currentChunk->adjacentChunks[EAST] !=NULL){
 				currentChunk = currentChunk->adjacentChunks[EAST];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
@@ -60,7 +79,7 @@ int parseInput(string input) {
 		else if (input == "north"){
 			if (currentChunk->adjacentChunks[NORTH] !=NULL){
 				currentChunk = currentChunk->adjacentChunks[NORTH];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
@@ -68,7 +87,7 @@ int parseInput(string input) {
 		else if (input == "west"){
 			if (currentChunk->adjacentChunks[WEST] !=NULL){
 				currentChunk = currentChunk->adjacentChunks[WEST];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
@@ -76,12 +95,42 @@ int parseInput(string input) {
 		else if (input == "south"){
 			if (currentChunk->adjacentChunks[SOUTH] !=NULL){
 				 currentChunk = currentChunk->adjacentChunks[SOUTH];
-				cout << currentChunk->description << endl;
+				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
 		} else{
 			cout << "that  is not a valid direction\n";
+		}
+	}else if(input == "talk") {
+		int numNPC = currentChunk->npcs.size();
+		if (numNPC > 0){
+			cout << "Who would you like to talk to?\n";
+			cout << "The creature";
+			if(numNPC == 1){
+				cout <<"s you talk to is " << currentChunk->npcs[0]->name;
+			} else{
+				cout << " you can talk to are ";
+				int count = 0;
+				for (auto  i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+					if (count < numNPC-1){
+	        			cout << (*i)->name << ", ";
+					} else{
+						cout << "and " << (*i)->name << endl;
+					}
+					count++;
+    			}
+			}
+			string creature = getInput();
+			for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+				if ((*i)->name == creature){
+					(*i)->talkTo();
+					return 0;
+				}
+			}
+			cout << "There is no creature by that name here\n";
+		} else{
+			cout << "There is no one around you to talk to at the moment.\n";
 		}
 	}
 	else {

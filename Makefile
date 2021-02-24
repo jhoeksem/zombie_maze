@@ -1,7 +1,7 @@
 CC = g++
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c++11
 TARGET = main
-OBJS = main.o parser.o object.o npc.o map.o
+OBJS = main.o parser.o object.o npc.o map.o character.o
 
 all: $(TARGET) $(MAP)
 
@@ -23,7 +23,7 @@ object.o: object.cpp object.h
 npc.o: npc.cpp npc.h
 	$(CC) $(CFLAGS) -c npc.cpp
 
-main.o: main.cpp parser.h object.h npc.h
+main.o: main.cpp parser.h object.h npc.h character.h
 	$(CC) $(CFLAGS) -c main.cpp
 
 clean: 
