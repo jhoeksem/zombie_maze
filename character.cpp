@@ -12,4 +12,3 @@ Character::Character(string n, string d, int h, int s){
     }
 }
 
-
