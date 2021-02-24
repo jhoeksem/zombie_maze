@@ -2,16 +2,6 @@
 #include "npc.h"
 using namespace std;
 
-
-	bool NPC::isThreat() {
-		if(health > 0 and friendly == false){
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
 	void NPC::print(){
 		//TODO add logic to print different things depending on state (dead, passified, agressive etc)
 		if (health <= 0){
@@ -25,7 +15,7 @@ using namespace std;
 		if (health >0){
 			cout << talk << endl;
 		} else {
-			cout << "You start to have a lovely conversation with the creature, until you realize you have been talking to a corpse for that past few minutes.\n";
+			cout << "You start to have a lovely conversation with the creature, until you realize you have been talking to a corpse for the past few minutes.\n";
 		}
 	}
 
@@ -38,7 +28,7 @@ using namespace std;
 			exit(1);
 		}
 		id = npcId;
-	    description = "";
+	    	description = "";
 		string line;
         //read in id
 		if ( getline (myfile, line)) {
@@ -93,12 +83,26 @@ using namespace std;
         //read in strength
 		if ( getline (myfile, line)) {
 			size_t stringLen = line.length();
-            strength = stoi(line, &stringLen);
+            		strength = stoi(line, &stringLen);
 		} else {
 			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
 			exit(1);
 		}
-		friendly = false;
+	//read in accuracy
+		if ( getline (myfile, line)) {
+			size_t stringLen = line.length();
+			accuracy = stoi(line, &stringLen);
+		} else {
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
+			exit(1);
+		}
+	//read in relationship_status (friend, wary, enemy)
+		if ( getline (myfile, line)) {
+			relationship_status = line;
+		} else {
+			cerr << "NPC File: " << npcId << " is incorrectly formatted\n";
+			exit(1);
+		}
 		myfile.close();
 	} else{
 		id = "-1";

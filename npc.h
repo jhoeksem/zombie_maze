@@ -13,12 +13,13 @@ struct NPC {
 	string talk;
 	string deadDescription;
 	string whichRoom;
+	
 	// combat stats
 	int health;
 	int strength;
-	bool friendly;
+	int accuracy;
+	string relationship_status; // friend, wary, enemy
 
-	bool isThreat();
 	void print();
 	NPC(string npcId);
 	void talkTo();

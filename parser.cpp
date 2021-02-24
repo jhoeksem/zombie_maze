@@ -63,7 +63,7 @@ int help() {
 int npc_turn() {
 	for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 		// if enemy is unfriendly, it attacks
-		if ( (*i)->friendly == false && (*i)->health > 0){
+		if ( (*i)->relationship_status == "enemy" && (*i)->health > 0){
 			character.decrement_health((*i)->strength);
 			cout << endl << "⚔️\tThe " << (*i)->name << " attacked you and dealt " << (*i)->strength << " points of damage!" << endl;
 		}
@@ -84,8 +84,8 @@ int parseInput(string input) {
 			if (currentChunk->adjacentChunks[suggestedDirection] !=NULL && !(currentChunk->isBlocked[suggestedDirection])){
 				if(suggestedDirection != doorEntered){
 					for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
-						if ((*i)->isThreat()){
-							cout << "There is an enemy blocking your path.\n";
+						if ((*i)->relationship_status != "friend"){
+							cout << "There is someone blocking your path.\n";
 							return 0;
 						}
 					}
