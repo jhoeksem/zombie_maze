@@ -166,6 +166,8 @@ int parseInput(string input) {
             if(input < 5 && input >= 0 && character.inventory[input]->id != "-1"){
                 currentChunk->objects.push_back(character.inventory[input]);
                 character.inventory.erase(character.inventory.begin() + input);
+				Object* empty = new Object("-1");
+				character.inventory.push_back(empty);
                 cout << "You have dropped the "<< currentChunk->objects.back()->name << endl;
 
             }else{
