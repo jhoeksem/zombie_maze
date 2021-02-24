@@ -60,6 +60,25 @@ int help() {
 	cout << "\tallows user to navigate the rooms of the maze." << endl;
 	cout << "\tcommand will prompt user to state direction of movement." << endl;
 	cout << "\tthe set of choices is [EAST|NORTH|WEST|SOUTH]." << endl;
+	cout << "hit" << endl;
+	cout << "\tallows user to attack enemies in the room." << endl;
+	cout << "\tcommand will prompt user to state target from list." << endl;
+	cout << "\tcommand will then prompt user to give the index of the item they want to use. <see inventory for options>" <<endl;
+	cout << "grab" << endl;
+	cout << "\tpicks up the first item on the ground." << endl;
+	cout << "drop" << endl;
+	cout << "\tallows user to drop an item from the inventory onto ground." << endl;
+	cout << "\tcommand will prompt user to select the index of the item they wish to drop." << endl;
+	cout << "examine" << endl;
+	cout << "\tallows user to see a description of any item on the ground or inventory." << endl;
+	cout << "\tcommand will prompt user for the name of the item they wish to examine." << endl;
+	cout << "look" << endl;
+	cout << "\tallows the user to see all of the information of the current room." << endl;
+	cout << "talk" <<endl;
+	cout << "\tallows the user to talk to an NPC and receive some text." << endl;
+	cout << "\tcommand will prompt user for the name of the npc they wish to talk to." << endl;
+	cout << "inventory" <<endl;
+	cout << "\tallows user to see the names of items in the inventory" << endl;
 	return 0;
 }
 
