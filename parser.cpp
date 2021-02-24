@@ -112,8 +112,7 @@ int parseInput(string input) {
 	} else if(input == "grab"){
                 cout << "going to grab the object"<< endl;
 
-
-                Object empty("empty");
+                Object empty("-1");
                 cout << "passes creation" << endl;
                 for(int i = 0; i< 5; i++){
                     string n = empty.id; 
