@@ -2,6 +2,7 @@
 #define CHARACTER_H
 #include <string>
 #include <vector>
+#include "object.h"
 using namespace std;
 
 struct Character {
@@ -14,8 +15,6 @@ struct Character {
         Character(string name, string description, int health ,int strength);
 
 };
-
-
 
 
 
