@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include "map.h"
 #include "character.h"
 #include "object.h"
@@ -9,6 +10,8 @@ Map* currentChunk;
 string desc = "This character is basically hercules. Super strong and will fight to death";
 Character character = Character("Zahm Bee", desc, 100,100);
 int doorEntered = 0;
+int base_damage = 3;
+
 //Character character
 int intro() {
 	system("clear"); // creates error at the moment 
@@ -31,7 +34,7 @@ int intro() {
 
 string getInput() {
 	string input;
-	cout << endl << "❓\t";
+	cout << endl << "[❓]\t";
 	getline(cin, input);
 	return input;
 }
@@ -60,12 +63,40 @@ int help() {
 	return 0;
 }
 
+int hit() {
+	NPC* npc = NPCSelector(currentChunk);
+	if(npc == NULL){
+		return 0;
+	} else {
+		cout << "Which object would you like to hit them with? (specify index of object in inventory, or -1 for fists)";
+		int input = stoi(getInput());
+		if ( input == -1 ){
+			npc->relationship_status = "enemy";	
+			npc->health -= base_damage;
+			cout << "[⚔️ ]\tYou hit the " << npc->name << " with your fist for " << base_damage << " damage." << endl;
+		} else if(input < 5 && input >= 0 && character.inventory[input]->id != "-1"){
+			npc->relationship_status = "enemy";
+			npc->health -= character.inventory[input]->damage;
+			cout << "[⚔️ ]\tYou hit the " << npc->name << " with the " << character.inventory[input]->name << " for " << character.inventory[input]->damage << " damage." << endl;
+		} else {
+			cout << "That is not a valid object" << endl;
+		}
+		return 0;
+	}
+}
+
 int npc_turn() {
 	for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
-		// if enemy is unfriendly, it attacks
+		// if enemy is an enemy, it attacks
 		if ( (*i)->relationship_status == "enemy" && (*i)->health > 0){
-			character.decrement_health((*i)->strength);
-			cout << endl << "⚔️\tThe " << (*i)->name << " attacked you and dealt " << (*i)->strength << " points of damage!" << endl;
+			int random = rand() % 100 + 1;
+			int enemy_acc = (*i)->accuracy;
+			if ( enemy_acc >= random ){
+				character.decrement_health((*i)->strength);
+				cout << "[⚔️ ]\tThe " << (*i)->name << " attacked you and dealt " << (*i)->strength << " damage!" << endl;
+			} else {
+				cout << "[⚔️ ]\tThe " << (*i)->name << " attacked you, but stumbled and missed!" << endl;
+			}
 		}
 	}
 	return 0;
@@ -74,12 +105,14 @@ int npc_turn() {
 int parseInput(string input) {
 	if (input == "help") {
 		help();
+	} else if (input == "hit"){
+		hit();
 	} else if (input == "move"){
 		cout << "Which cardinal direction would you like to move?" << endl;
 		string input = getInput();	
 		int suggestedDirection = getDirection(input);
 		if (suggestedDirection == DIRECTION_ERROR){
-			cout << "that  is not a valid direction\n";
+			cout << "That  is not a valid direction\n";
 		} else{
 			if (currentChunk->adjacentChunks[suggestedDirection] !=NULL && !(currentChunk->isBlocked[suggestedDirection])){
 				if(suggestedDirection != doorEntered){

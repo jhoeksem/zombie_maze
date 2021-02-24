@@ -9,6 +9,7 @@ int intro();
 string getInput();
 int quit();
 int help();
+int hit();
 int npc_turn();
 int parseInput(string input);
 
