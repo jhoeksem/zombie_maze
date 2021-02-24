@@ -13,6 +13,7 @@ enum Directions{
     NORTH,
     WEST,
     SOUTH,
+    DIRECTION_ERROR,
 };
 class Map{
     public:
@@ -23,6 +24,7 @@ class Map{
         bool isCompleted; // Tells if the chunk has been completed
         string direction[4]; // Stores the ids of the neighbooring nodes. Not used after build time
         Map* adjacentChunks[4]; // Stores a pointer to the neighbooring nodes
+        bool isBlocked[4];
         vector <Object*> objects;
         vector <NPC*> npcs;
 
@@ -34,5 +36,5 @@ Map* BuildMap(string mapId);
 int testMap ();
 void PopulateMap();
 NPC* NPCSelector(Map* currentChunk);
-
+Directions getDirection(string input);
 #endif // PARSER_H

@@ -34,6 +34,12 @@ Map::Map(string mapId){
         //read in the adjancent chunks
         for (int i =0; i < 4; i++){
             if ( getline (myfile, line)) {
+                if (line[0] == 'b'){
+                    isBlocked[i] = true;
+                    line = line.substr(8);
+                } else {
+                    isBlocked[i] = false;
+                }
                 direction[i] = line;
             } else {
                 cerr << "File: " << mapId << " is incorrectly formatted\n";
@@ -147,6 +153,19 @@ NPC* NPCSelector(Map* currentChunk){
         }
 }
 
+Directions getDirection(string input){
+    if (input == "north"){
+        return NORTH;
+    } else if (input == "south"){
+        return SOUTH;
+    } else if (input == "east") {
+        return EAST;
+    } else if (input == "west"){
+        return WEST;
+    } else{
+        return DIRECTION_ERROR;
+    }
+}
 void Map::print(){
     cout << description << endl;
     for (auto i = objects.begin(); i != objects.end(); i++){
