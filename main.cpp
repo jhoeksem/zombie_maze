@@ -11,8 +11,9 @@ int main() {
 	input = getInput();
 
 	while (input != "quit") {
-		npc_turn();
 		parseInput(input);
+		npc_turn();
+		
 		input = getInput();
 	}
 	

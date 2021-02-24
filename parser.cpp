@@ -30,7 +30,7 @@ int intro() {
 
 string getInput() {
 	string input;
-	cout << "> ";
+	cout << endl << "❓\t";
 	getline(cin, input);
 	return input;
 }
@@ -61,17 +61,11 @@ int help() {
 
 int npc_turn() {
 	for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
-		cout << "There is an enemy in the room" << endl;
-		cout << "you took " << (*i)->strength << " points of damage!" << endl;
-		character.decrement_health(5*(*i)->strength);
-		cout << "your character has " << character.health << " points of health!" << endl;
-		if (character.health < 10) {
-			cout << "you were healed from " << character.health << " to ";
-			character.increment_health(80);
-			cout << character.health << " points of health!" << endl;
+		// if enemy is unfriendly, it attacks
+		if ( (*i)->friendly == false && (*i)->health > 0){
+			character.decrement_health((*i)->strength);
+			cout << endl << "⚔️\tThe " << (*i)->name << " attacked you and dealt " << (*i)->strength << " points of damage!" << endl;
 		}
-		cout << character.health_status() << endl;
-
 	}
 	return 0;
 }
