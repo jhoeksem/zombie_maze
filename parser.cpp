@@ -12,6 +12,21 @@ Character character = Character("Zahm Bee", desc, 100,100);
 int doorEntered = 0;
 int base_damage = 3;
 
+void endgame(string endingType){
+	ifstream f("endings/"+endingType+".txt");
+	if(f.is_open()){
+		cout << f.rdbuf() << endl;
+		f.close();
+	} else{
+		ifstream f2("endings/good.txt");
+		if(f2.is_open()){
+			cout << f2.rdbuf() << endl;
+			f.close();
+		}
+	}
+	exit(0);
+}
+
 //Character character
 int intro() {
 	system("clear"); // creates error at the moment 
@@ -121,6 +136,9 @@ int npc_turn() {
 			}
 		}
 	}
+	if (character.health <=0){
+		endgame("dead");
+	}
 	return 0;
 }
 
@@ -229,7 +247,30 @@ int parseInput(string input) {
 		cout << "You could not find " << input << " to examine.\n";
 	}else if (input == "inventory"){
 		printObjectVector(true, character.inventory);
-	}
+	} else if (input == "wish"){
+		if (currentChunk->id != "5"){
+			cout << "You look up at the sky and see a shooting star. You state your deepest wish in your heart and hope it comes true." << endl;
+		} else if (currentChunk->npcs[0]->health <= 0){
+			endgame("worst");
+		} else if (currentChunk->npcs[0]->relationship_status == "enemy"){
+			cout << "You try to ask the fairy to grant your wish, but she is too busy trying to kill you to listen." << endl;
+		} else{
+			cout << "Tell me brave child, what do you wish for more than anything else?" << endl;
+			string input = getInput();
+			if(input == "money"){
+				cout << "The fairy reaches into her pocket and hands you her loose change, and says \"dont spend it all in one place.\"" << endl;
+			}else if (input == "power"){
+				cout << "The fairy proclaims that you are now the leader of the official Great Fairy Fan Club™, with over 10 members. You have the power over running the whole club." << endl;
+			} else if (input == "fame"){
+				cout << "The fairy gives you an Official Zombie Maze™ Conquerer Certificate to show off at pubs for fame. It even comes complete with a coupon to a local tavern for a free meal and drink, though it expired over 600 years ago." << endl;
+			} else if (input == "kill the lich"){
+				endgame("best");
+			} else{
+				cout << "The fairy nods and grants your wish." << endl;
+			}
+		}
+		endgame("good");
+	} 
 	else {
 		cout << "That's not a phrase I'm familiar with" << endl;	
 	}
