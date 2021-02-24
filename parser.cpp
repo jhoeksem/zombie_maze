@@ -137,10 +137,10 @@ int parseInput(string input) {
         }else if(input =="drop"){
 	    cout << "Name the index of the item you want to drop" << endl;
 	    int input = stoi(getInput());	
-            if(character.inventory[input]->id != "-1"){
+            if(input < 5 && input >= 0 && character.inventory[input]->id != "-1"){
                 currentChunk->objects.push_back(character.inventory[input]);
                 character.inventory.erase(character.inventory.begin() + input);
-                cout << "You have dropped the "<< currentChunk->objects.back()->name; << endl;
+                cout << "You have dropped the "<< currentChunk->objects.back()->name << endl;
 
             }else{
                 cout << "This is not a valid index" << endl;
