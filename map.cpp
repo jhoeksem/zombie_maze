@@ -113,6 +113,37 @@ void PopulateMap(){
     }while(++npcNum);
 }
 
+void NPCSelector(Map* currentChunk){
+    int numNPC = currentChunk->npcs.size();
+		if (numNPC > 0){
+			cout << "The creature";
+			if(numNPC == 1){
+				cout <<"s you talk to is " << currentChunk->npcs[0]->name;
+			} else{
+				cout << " you can talk to are ";
+				int count = 0;
+				for (auto  i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+					if (count < numNPC-1){
+	        			cout << (*i)->name << ", ";
+					} else{
+						cout << "and " << (*i)->name << endl;
+					}
+					count++;
+    			}
+			}
+			string creature = getInput();
+			for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+				if ((*i)->name == creature){
+					(*i)->talkTo();
+					return 0;
+				}
+			}
+			cout << "There is no creature by that name here\n";
+		} else{
+			cout << "There is no one around you to talk to at the moment.\n";
+		}
+}
+
 void Map::print(){
     cout << description << endl;
     for (auto i = objects.begin(); i != objects.end(); i++){
