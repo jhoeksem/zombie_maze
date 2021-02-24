@@ -70,18 +70,11 @@ void printObjectVector(bool isInventory, vector <Object*> objects){
 		}
 	} else {
 		if (objects.size() <=0){
-			cout << "There is nothing of note on the ground.\n";
-		} else if (objects.size() == 1){
-			cout << "You see a " << objects[0]->name << " on the ground.\n";
+			cout << "You cannot see any objects in the clearing." << endl;
 		} else{
-			unsigned int index =0;
-			cout << "The items you see on the ground are ";
+			cout << "You spot the following objects in the clearing:" << endl;
 			for (auto i = objects.begin(); i!= objects.end(); i++){
-				if(index == objects.size()-1){
-					cout << "and " << (*i)->name << ".\n";
-				}else{
-					cout << (*i)->name << ", ";
-				}
+				cout << "A " << (*i)->name << endl;
 			}
 		}
 	}

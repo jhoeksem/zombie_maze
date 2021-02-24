@@ -66,7 +66,7 @@ int help() {
 	cout << endl;
 	cout << "Even the strongest sometimes require aid." << endl;
 	cout << endl;
-	cout << "These are the commands you may use:" << endl;
+	cout << "\e[1mCommon commands:\e[0m" << endl;
 	cout << "help" << endl;
 	cout << "\tprints help screen with list of commands." << endl;
 	cout << "quit" << endl;
@@ -74,7 +74,6 @@ int help() {
 	cout << "move" << endl;
 	cout << "\tallows user to navigate the rooms of the maze." << endl;
 	cout << "\tcommand will prompt user to state direction of movement." << endl;
-	cout << "\tthe set of choices is [EAST|NORTH|WEST|SOUTH]." << endl;
 	cout << "hit" << endl;
 	cout << "\tallows user to attack enemies in the room." << endl;
 	cout << "\tcommand will prompt user to state target from list." << endl;
