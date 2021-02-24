@@ -12,6 +12,7 @@ Map::Map(string mapId){
     id = mapId;
     string line;
     ifstream myfile ("./chunks/"+mapId+".map");
+    isVisited = false;
     description = "";
     postDescription="";
     isCompleted=false;
@@ -166,13 +167,34 @@ Directions getDirection(string input){
         return DIRECTION_ERROR;
     }
 }
+void Map::printAll(){
+        if (isCompleted){
+            cout << postDescription << endl;
+        }else {
+            cout << description << endl;
+        }
+        for (auto i = objects.begin(); i != objects.end(); i++){
+            (*i) -> print();
+        }
+        for (auto  i = npcs.begin(); i != npcs.end(); i++){
+            (*i)->print();
+        }
+}
 void Map::print(){
-    cout << description << endl;
-    for (auto i = objects.begin(); i != objects.end(); i++){
-        (*i) -> print();
-    }
-    for (auto  i = npcs.begin(); i != npcs.end(); i++){
-        (*i)->print();
+        cout << "Entering the area called: " << name <<endl;
+    if(!isVisited){
+        printAll();
+    } else {
+        int npcAliveCount = 0;
+        for (auto  i = npcs.begin(); i != npcs.end(); i++){
+            if ((*i)->health >0){
+                (*i)->print();
+                npcAliveCount++;
+            }
+        }
+        if (npcAliveCount <= 0) {
+            cout << "You cannot see any signs of life within the area.\n";
+        }
     }
 
 }

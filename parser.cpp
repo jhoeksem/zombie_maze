@@ -91,12 +91,15 @@ int parseInput(string input) {
 					}
 				}
 				doorEntered = (suggestedDirection +2)%4; // this notes the door entered into the new room(if you walk north you enter the south door)
+				currentChunk->isVisited = true;
 				currentChunk = currentChunk->adjacentChunks[suggestedDirection];
 				currentChunk->print();
 			} else{
 				cout << "That way is blocked.\n";
 			}
 		}
+	} else if (input == "look"){
+		currentChunk->printAll();
 	} else if(input == "grab"){
 
                 Object empty("-1");
@@ -141,6 +144,14 @@ int parseInput(string input) {
 		if(npc != NULL){
 			npc->talkTo();
 		}		
+	}  else if (input == "fire"){
+		if (currentChunk->id == "2" && currentChunk->isBlocked[1]){
+			cout << "You light a fire by the fog, and it immediately disapates, opening up the path to the north\n";
+			currentChunk->isBlocked[1] = false;
+			currentChunk->isCompleted = true;
+		} else{
+			cout << "You start to gather wood to start a fire, but quickly start thinking to yourself, if it is worth the effort.\n";
+		}
 	}
 	else {
 		cout << "That's not a phrase I'm familiar with" << endl;	

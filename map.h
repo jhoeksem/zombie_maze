@@ -22,6 +22,7 @@ class Map{
         string description; // Description of chunk in text
         string postDescription; // Description of the chunk, after it has been completed
         bool isCompleted; // Tells if the chunk has been completed
+        bool isVisited;
         string direction[4]; // Stores the ids of the neighbooring nodes. Not used after build time
         Map* adjacentChunks[4]; // Stores a pointer to the neighbooring nodes
         bool isBlocked[4];
@@ -30,6 +31,7 @@ class Map{
 
         Map(string mapId);
         void DebugPrintChunk();
+        void printAll();
         void print();
 };
 Map* BuildMap(string mapId);
