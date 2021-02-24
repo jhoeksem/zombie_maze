@@ -122,15 +122,21 @@ void PopulateMap(){
 }
 
 NPC* NPCSelector(Map* currentChunk){
-    int numNPC = currentChunk->npcs.size();
+    vector <NPC*> aliveNPC;
+    for (auto  i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+        if((*i) ->health >0){
+            aliveNPC.push_back((*i));
+        }
+    }
+    int numNPC = aliveNPC.size();
 		if (numNPC > 0){
 			cout << "The creature";
 			if(numNPC == 1){
-				cout <<" you can select is " << currentChunk->npcs[0]->name;
+				cout <<" you can select is " << aliveNPC[0]->name;
 			} else{
 				cout << "s you can select are ";
 				int count = 0;
-				for (auto  i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+				for (auto  i = aliveNPC.begin(); i != aliveNPC.end(); i++){
 					if (count < numNPC-1){
 	        			cout << (*i)->name << ", ";
 					} else{
@@ -140,7 +146,7 @@ NPC* NPCSelector(Map* currentChunk){
     			}
 			}
 			string creature = getInput();
-			for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+			for (auto i = aliveNPC.begin(); i != aliveNPC.end(); i++){
 				if ((*i)->name == creature){
 					return (*i);
 				}
@@ -185,19 +191,32 @@ void Map::print(){
     if(!isVisited){
         printAll();
     } else {
-        int npcAliveCount = 0;
+        vector <NPC*> aliveNPC;
         for (auto  i = npcs.begin(); i != npcs.end(); i++){
-            if ((*i)->health >0){
-                (*i)->print();
-                npcAliveCount++;
+            if((*i) ->health >0){
+                aliveNPC.push_back((*i));
             }
         }
-        if (npcAliveCount <= 0) {
+        if (aliveNPC.size() <= 0) {
             cout << "You cannot see any signs of life within the area.\n";
+        }else if(aliveNPC.size() == 1){
+            cout << "The creature in the area is called " << aliveNPC[0]->name << endl;
+        } else{
+            cout << "The creatures in the area are called ";
+            unsigned int count  = 0;
+            for (auto  i = aliveNPC.begin(); i != aliveNPC.end(); i++){
+                    if (count == aliveNPC.size() -1){
+                        cout << "and " << (*i)->name << endl;
+                    } else{
+                        cout << (*i)->name << ", ";
+                    }
+                    count++;
+            }
         }
+        
     }
-
 }
+
 
 void Map::DebugPrintChunk(){
  cout << "Id: " << id <<endl;

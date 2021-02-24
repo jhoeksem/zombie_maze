@@ -81,6 +81,9 @@ int hit() {
 		} else {
 			cout << "That is not a valid object" << endl;
 		}
+		if (npc->health <= 0){
+			cout << "[⚔️ ]\t" << npc-> name << " is now dead.\n";
+		}
 		return 0;
 	}
 }
@@ -117,7 +120,7 @@ int parseInput(string input) {
 			if (currentChunk->adjacentChunks[suggestedDirection] !=NULL && !(currentChunk->isBlocked[suggestedDirection])){
 				if(suggestedDirection != doorEntered){
 					for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
-						if ((*i)->relationship_status != "friend"){
+						if ((*i)->health >0 && (*i)->relationship_status != "friend"){
 							cout << "There is someone blocking your path.\n";
 							return 0;
 						}
