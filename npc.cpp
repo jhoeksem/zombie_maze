@@ -14,7 +14,19 @@ using namespace std;
 
 	void NPC::print(){
 		//TODO add logic to print different things depending on state (dead, passified, agressive etc)
-		cout << description << endl;
+		if (health <= 0){
+			cout << deadDescription << endl;
+		} else{
+			cout << description << endl;
+		}
+	}
+
+	void NPC::talkTo(){
+		if (health >0){
+			cout << talk << endl;
+		} else {
+			cout << "You start to have a lovely conversation with the creature, until you realize you have been talking to a corpse for that past few minutes.\n";
+		}
 	}
 
 	NPC::NPC(string npcId){

@@ -21,5 +21,6 @@ struct NPC {
 	bool isThreat();
 	void print();
 	NPC(string npcId);
+	void talkTo();
 };
 #endif // NPC_H
