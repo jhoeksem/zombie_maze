@@ -1,11 +1,14 @@
 #include <iostream>
 #include <string>
 #include "map.h"
+#include "character.h"
+#include "object.h"
+
 using namespace std;
 Map* currentChunk;
 string desc = "This character is basically hercules. Super strong and will fight to death";
-Character character("John", desc, 100,100);
-
+Character character = Character("John", desc, 100,100);
+//Character character
 int intro() {
 	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
@@ -107,9 +110,23 @@ int parseInput(string input) {
 			cout << "that  is not a valid direction\n";
 		}
 	} else if(input == "grab"){
+                cout << "going to grab the object"<< endl;
+
+
+                Object empty("empty");
+                cout << "passes creation" << endl;
                 for(int i = 0; i< 5; i++){
-                    if(character.inventory[i] == "empty"){
-                        character.invetory[i] = map
+                    string n = empty.id; 
+                    string m =  character.inventory[i]->id;
+                    cout << m << endl;
+
+                    if(character.inventory[i]->id == empty.id){
+                        cout << "passes check" << endl;
+                        if(!currentChunk->objects.empty()){
+                            character.inventory[i] = currentChunk->objects[0];
+                            currentChunk->objects.erase(currentChunk->objects.begin()+ 0);
+                            break;
+                        }
                     }
                 }  
         

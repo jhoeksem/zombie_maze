@@ -11,7 +11,7 @@ struct Character {
 	// health stats
 	int health;
 	int strength;
-        string inventory[5]; // not sure if this is actually allowed or not. might need to use a vector instead
+        vector <Object*> inventory; // vector of object pointers
         Character(string name, string description, int health ,int strength);
 
 };
