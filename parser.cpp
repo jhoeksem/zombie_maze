@@ -8,7 +8,17 @@ int intro() {
 	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
 	PopulateMap();
-	cout << "Welcome to the ZOMBIE MAZE." << endl;
+	ifstream f("intro.txt");
+	if(f.is_open()){
+		cout << f.rdbuf() << endl;
+		f.close();
+		string input;
+		getline(cin, input);
+		system("clear");
+	} else{
+		cerr << "intro.txt not found. exiting.\n";
+		exit(1);
+	}
 	currentChunk->print();
 	return 0;
 }
