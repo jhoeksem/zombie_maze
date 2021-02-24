@@ -3,11 +3,13 @@
 #include "map.h"
 using namespace std;
 Map* currentChunk;
+string desc = "This character is basically hercules. Super strong and will fight to death";
+Character character("John", desc, 100,100);
 
 int intro() {
 	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
-	PopulateMap();
+        PopulateMap();
 	cout << "Welcome to the ZOMBIE MAZE." << endl;
 	currentChunk->print();
 	return 0;
@@ -92,7 +94,13 @@ int parseInput(string input) {
 		} else{
 			cout << "that  is not a valid direction\n";
 		}
-	}
+	} else if(input == "grab"){
+                for(int i = 0; i< 5; i++){
+                    if(character.inventory[i] == "empty"){
+                        character.invetory[i] = map
+                    }
+                }  
+        }
 	else {
 		cout << "That's not a phrase I'm familiar with" << endl;	
 	}
