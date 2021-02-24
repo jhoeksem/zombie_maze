@@ -108,25 +108,43 @@ int parseInput(string input) {
 			cout << "that  is not a valid direction\n";
 		}
 	} else if(input == "grab"){
-                cout << "going to grab the object"<< endl;
 
                 Object empty("-1");
-                cout << "passes creation" << endl;
+                int n= 0;
                 for(int i = 0; i< 5; i++){
-                    string n = empty.id; 
-                    string m =  character.inventory[i]->id;
-                    cout << m << endl;
 
                     if(character.inventory[i]->id == empty.id){
-                        cout << "passes check" << endl;
                         if(!currentChunk->objects.empty()){
                             character.inventory[i] = currentChunk->objects[0];
                             currentChunk->objects.erase(currentChunk->objects.begin()+ 0);
+                            cout << "You have grabbed the " << character.inventory[i]->name << endl;;
                             break;
                         }
+                        cout<< "No objects to grab here" << endl;
+                        break;
                     }
-                }  
-        
+                    n++;
+                } 
+            
+                if(n == 5){
+                    cout << "Looks like your inventory is full\n Drop an item and try again" << endl;  
+                     
+                }
+
+        }else if(input =="drop"){
+	    cout << "Name the index of the item you want to drop" << endl;
+	    int input = stoi(getInput());	
+            if(character.inventory[input]->id != "-1"){
+                currentChunk->objects.push_back(character.inventory[input]);
+                character.inventory.erase(character.inventory.begin() + input);
+                cout << "You have dropped the "<< currentChunk->objects.back()->name; << endl;
+
+            }else{
+                cout << "This is not a valid index" << endl;
+            }
+            
+
+
 	}else if(input == "talk") {
 		cout << "Who would you like to talk to?\n";
 		NPC* npc = NPCSelector(currentChunk);
