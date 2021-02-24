@@ -8,6 +8,7 @@ using namespace std;
 Map* currentChunk;
 string desc = "This character is basically hercules. Super strong and will fight to death";
 Character character = Character("Zahm Bee", desc, 100,100);
+int doorEntered = 0;
 //Character character
 int intro() {
 	system("clear"); // creates error at the moment 
@@ -76,39 +77,25 @@ int parseInput(string input) {
 	} else if (input == "move"){
 		cout << "Which cardinal direction would you like to move?" << endl;
 		string input = getInput();	
-		if (input == "east"){
-			if (currentChunk->adjacentChunks[EAST] !=NULL){
-				currentChunk = currentChunk->adjacentChunks[EAST];
-				currentChunk->print();
-			} else{
-				cout << "That way is blocked.\n";
-			}
-		}
-		else if (input == "north"){
-			if (currentChunk->adjacentChunks[NORTH] !=NULL){
-				currentChunk = currentChunk->adjacentChunks[NORTH];
-				currentChunk->print();
-			} else{
-				cout << "That way is blocked.\n";
-			}
-		}
-		else if (input == "west"){
-			if (currentChunk->adjacentChunks[WEST] !=NULL){
-				currentChunk = currentChunk->adjacentChunks[WEST];
-				currentChunk->print();
-			} else{
-				cout << "That way is blocked.\n";
-			}
-		}
-		else if (input == "south"){
-			if (currentChunk->adjacentChunks[SOUTH] !=NULL){
-				 currentChunk = currentChunk->adjacentChunks[SOUTH];
-				currentChunk->print();
-			} else{
-				cout << "That way is blocked.\n";
-			}
-		} else{
+		int suggestedDirection = getDirection(input);
+		if (suggestedDirection == DIRECTION_ERROR){
 			cout << "that  is not a valid direction\n";
+		} else{
+			if (currentChunk->adjacentChunks[suggestedDirection] !=NULL && !(currentChunk->isBlocked[suggestedDirection])){
+				if(suggestedDirection != doorEntered){
+					for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+						if ((*i)->isThreat()){
+							cout << "There is an enemy blocking your path.\n";
+							return 0;
+						}
+					}
+				}
+				doorEntered = (suggestedDirection +2)%4; // this notes the door entered into the new room(if you walk north you enter the south door)
+				currentChunk = currentChunk->adjacentChunks[suggestedDirection];
+				currentChunk->print();
+			} else{
+				cout << "That way is blocked.\n";
+			}
 		}
 	} else if(input == "grab"){
 
@@ -140,7 +127,7 @@ int parseInput(string input) {
             if(character.inventory[input]->id != "-1"){
                 currentChunk->objects.push_back(character.inventory[input]);
                 character.inventory.erase(character.inventory.begin() + input);
-                cout << "You have dropped the "<< currentChunk->objects.back()->name; << endl;
+                cout << "You have dropped the "<< currentChunk->objects.back()->name << endl;
 
             }else{
                 cout << "This is not a valid index" << endl;
