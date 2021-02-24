@@ -12,8 +12,6 @@ Character character = Character("John", desc, 100,100);
 int intro() {
 	system("clear"); // creates error at the moment 
 	currentChunk = BuildMap("0");
-        PopulateMap();
-	cout << "Welcome to the ZOMBIE MAZE." << endl;
 	PopulateMap();
 	ifstream f("intro.txt");
 	if(f.is_open()){
