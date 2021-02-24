@@ -131,7 +131,7 @@ int parseInput(string input) {
 				currentChunk = currentChunk->adjacentChunks[suggestedDirection];
 				currentChunk->print();
 			} else{
-				cout << "That way is blocked.\n";
+				cout << "That way is blocked maybe try to use something to open it.\n";
 			}
 		}
 	} else if (input == "look"){
@@ -210,8 +210,28 @@ int parseInput(string input) {
 		cout << "You could not find " << input << " to examine.\n";
 	}else if (input == "inventory"){
 		printObjectVector(true, character.inventory);
-	}
-	else {
+	}else if(input == "use"){
+
+                if((currentChunk->id == "6" && currentChunk->isBlocked[1]) || (currentChunk->id == "7" && currentChunk->isBlocked[0])){
+                    cout << "Which item would you like to use?"<< endl;
+                    string input = getInput();
+                    if(currentChunk->id =="6" && (input == "rock")){
+                        currentChunk->isBlocked[NORTH] = false;
+                        currentChunk->isCompleted = true;
+                    }else if(currentChunk->id == "7" && (input == "key")){
+                        currentChunk->isBlocked[EAST] = false;
+                        currentChunk->isCompleted = true;
+                        
+
+                    }
+                
+                    cout << "Nothing by that name here" << endl;
+                }else{
+                    cout << "Nothing to use here. Perhaps try grabbing it" << endl;
+
+                }
+
+	}else {
 		cout << "That's not a phrase I'm familiar with" << endl;	
 	}
 	return 0;
