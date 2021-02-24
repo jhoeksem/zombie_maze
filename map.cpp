@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <string.h>
 #include "map.h"
+#include "parser.h"
 using namespace std;
 
 Map* chunks [128];
@@ -113,14 +114,14 @@ void PopulateMap(){
     }while(++npcNum);
 }
 
-void NPCSelector(Map* currentChunk){
+NPC* NPCSelector(Map* currentChunk){
     int numNPC = currentChunk->npcs.size();
 		if (numNPC > 0){
 			cout << "The creature";
 			if(numNPC == 1){
-				cout <<"s you talk to is " << currentChunk->npcs[0]->name;
+				cout <<" you can select is " << currentChunk->npcs[0]->name;
 			} else{
-				cout << " you can talk to are ";
+				cout << "s you can select are ";
 				int count = 0;
 				for (auto  i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 					if (count < numNPC-1){
@@ -134,14 +135,16 @@ void NPCSelector(Map* currentChunk){
 			string creature = getInput();
 			for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 				if ((*i)->name == creature){
-					(*i)->talkTo();
-					return 0;
+					return (*i);
 				}
 			}
-			cout << "There is no creature by that name here\n";
-		} else{
-			cout << "There is no one around you to talk to at the moment.\n";
-		}
+            cout << "There is no one by that name\n";
+            return NULL;
+		
+        } else{
+            cout << "There is no one else in the room\n";
+            return NULL;
+        }
 }
 
 void Map::print(){

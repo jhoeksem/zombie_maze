@@ -131,8 +131,11 @@ int parseInput(string input) {
                 }  
         
 	}else if(input == "talk") {
-			cout << "Who would you like to talk to?\n";
-		
+		cout << "Who would you like to talk to?\n";
+		NPC* npc = NPCSelector(currentChunk);
+		if(npc != NULL){
+			npc->talkTo();
+		}		
 	}
 	else {
 		cout << "That's not a phrase I'm familiar with" << endl;	

@@ -33,5 +33,6 @@ class Map{
 Map* BuildMap(string mapId);
 int testMap ();
 void PopulateMap();
+NPC* NPCSelector(Map* currentChunk);
 
 #endif // PARSER_H
