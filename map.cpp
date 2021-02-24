@@ -179,9 +179,7 @@ void Map::printAll(){
         }else {
             cout << description << endl;
         }
-        for (auto i = objects.begin(); i != objects.end(); i++){
-            (*i) -> print();
-        }
+        printObjectVector(false, objects);
         for (auto  i = npcs.begin(); i != npcs.end(); i++){
             (*i)->print();
         }

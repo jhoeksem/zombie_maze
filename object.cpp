@@ -59,3 +59,30 @@ Object::Object(string objectId){
 		id = "-1";
 	}
 }
+
+void printObjectVector(bool isInventory, vector <Object*> objects){
+	if(isInventory){
+		cout << "Your inventory is currently:\n";
+		int index = 0;
+		for (auto i = objects.begin(); i != objects.end(); i++){
+			cout << "Slot " << index <<": " << (*i)->name << endl;
+			index++;
+		}
+	} else {
+		if (objects.size() <=0){
+			cout << "There is nothing of note on the ground.\n";
+		} else if (objects.size() == 1){
+			cout << "You see a " << objects[0]->name << " on the ground.\n";
+		} else{
+			unsigned int index =0;
+			cout << "The items you see on the ground are ";
+			for (auto i = objects.begin(); i!= objects.end(); i++){
+				if(index == objects.size()-1){
+					cout << "and " << (*i)->name << ".\n";
+				}else{
+					cout << (*i)->name << ", ";
+				}
+			}
+		}
+	}
+}

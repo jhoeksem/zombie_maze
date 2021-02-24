@@ -188,6 +188,26 @@ int parseInput(string input) {
 		} else{
 			cout << "You start to gather wood to start a fire, but quickly start thinking to yourself, if it is worth the effort.\n";
 		}
+	} else if (input == "examine"){
+		cout << "Which item would you like to examine?\n";
+		string input = getInput();
+		for (auto i = currentChunk->objects.begin(); i != currentChunk->objects.end(); i++){
+			if (input == (*i)->name){
+				cout << "You examine the " << (*i) ->name << ".\n";
+				cout << (*i)->description << endl;
+				return 0;
+			}
+		}
+		for (auto i = character.inventory.begin(); i != character.inventory.end(); i++){
+			if (input == (*i)->name){
+				cout << "You examine the " << (*i) ->name << ".\n";
+				cout << (*i)->description << endl;
+				return 0;
+			}
+		}
+		cout << "You could not find " << input << " to examine.\n";
+	}else if (input == "inventory"){
+		printObjectVector(true, character.inventory);
 	}
 	else {
 		cout << "That's not a phrase I'm familiar with" << endl;	
