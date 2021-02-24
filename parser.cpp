@@ -7,7 +7,7 @@
 using namespace std;
 Map* currentChunk;
 string desc = "This character is basically hercules. Super strong and will fight to death";
-Character character = Character("John", desc, 100,100);
+Character character = Character("Zahm Bee", desc, 100,100);
 //Character character
 int intro() {
 	system("clear"); // creates error at the moment 
@@ -62,7 +62,16 @@ int help() {
 int npc_turn() {
 	for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 		cout << "There is an enemy in the room" << endl;
-		(*i) -> print();
+		cout << "you took " << (*i)->strength << " points of damage!" << endl;
+		character.decrement_health(5*(*i)->strength);
+		cout << "your character has " << character.health << " points of health!" << endl;
+		if (character.health < 10) {
+			cout << "you were healed from " << character.health << " to ";
+			character.increment_health(80);
+			cout << character.health << " points of health!" << endl;
+		}
+		cout << character.health_status() << endl;
+
 	}
 	return 0;
 }

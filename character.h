@@ -9,11 +9,14 @@ struct Character {
 	string name;
 	string description;
 	// health stats
+	int max_health;
 	int health;
 	int strength;
+	int decrement_health( int damage );
+	int increment_health( int healing );
+	string health_status();
         vector <Object*> inventory; // vector of object pointers
         Character(string name, string description, int health ,int strength);
-
 };
 
 
