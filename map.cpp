@@ -145,6 +145,7 @@ NPC* NPCSelector(Map* currentChunk){
 					count++;
     			}
 			}
+			cout << endl;
 			string creature = getInput();
 			for (auto i = aliveNPC.begin(); i != aliveNPC.end(); i++){
 				if ((*i)->name == creature){
@@ -161,13 +162,13 @@ NPC* NPCSelector(Map* currentChunk){
 }
 
 Directions getDirection(string input){
-    if (input == "north"){
+    if (input == "north" || input == "n"){
         return NORTH;
-    } else if (input == "south"){
+    } else if (input == "south" || input == "s"){
         return SOUTH;
-    } else if (input == "east") {
+    } else if (input == "east" || input == "e") {
         return EAST;
-    } else if (input == "west"){
+    } else if (input == "west" || input == "w"){
         return WEST;
     } else{
         return DIRECTION_ERROR;

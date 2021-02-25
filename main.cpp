@@ -10,7 +10,7 @@ int main() {
 	intro();
 	input = getInput();
 
-	while (input != "quit") {
+	while ( input != "quit" && input != "q" ) {
 		parseInput(input);
 		npc_turn();
 		

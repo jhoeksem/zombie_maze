@@ -62,37 +62,39 @@ int quit() {
 }
 
 int help() {
-
-	cout << endl;
 	cout << "Even the strongest sometimes require aid." << endl;
 	cout << endl;
 	cout << "\e[1mCommon commands:\e[0m" << endl;
-	cout << "help" << endl;
+	cout << "help\t(h)" << endl;
 	cout << "\tprints help screen with list of commands." << endl;
-	cout << "quit" << endl;
+	cout << "quit\t(q)" << endl;
 	cout << "\texit the game." << endl;
-	cout << "move" << endl;
+	cout << "move\t(m)" << endl;
 	cout << "\tallows user to navigate the rooms of the maze." << endl;
 	cout << "\tcommand will prompt user to state direction of movement." << endl;
-	cout << "hit" << endl;
-	cout << "\tallows user to attack enemies in the room." << endl;
+	cout << "\tthe possible direction are north (n), south (s), east (e), or west (w)" << endl;
+	cout << "hit\t(x)" << endl;
+	cout << "\tallows user to attack a NPC with an item." << endl;
 	cout << "\tcommand will prompt user to state target from list." << endl;
 	cout << "\tcommand will then prompt user to give the index of the item they want to use. <see inventory for options>" <<endl;
-	cout << "grab" << endl;
+	cout << "grab\t(g)" << endl;
 	cout << "\tpicks up the first item on the ground." << endl;
-	cout << "drop" << endl;
+	cout << "drop\t(d)" << endl;
 	cout << "\tallows user to drop an item from the inventory onto ground." << endl;
 	cout << "\tcommand will prompt user to select the index of the item they wish to drop." << endl;
-	cout << "examine" << endl;
+	cout << "examine\t(e)" << endl;
 	cout << "\tallows user to see a description of any item on the ground or inventory." << endl;
 	cout << "\tcommand will prompt user for the name of the item they wish to examine." << endl;
-	cout << "look" << endl;
+	cout << "look\t(l)" << endl;
 	cout << "\tallows the user to see all of the information of the current room." << endl;
-	cout << "talk" <<endl;
+	cout << "talk\t(t)" <<endl;
 	cout << "\tallows the user to talk to an NPC and receive some text." << endl;
 	cout << "\tcommand will prompt user for the name of the npc they wish to talk to." << endl;
-	cout << "inventory" <<endl;
-	cout << "\tallows user to see the names of items in the inventory" << endl;
+	cout << "inventory (i)" <<endl;
+	cout << "\tallows user to see the names of items in the inventory." << endl;
+	cout << "use\t(u)" << endl;
+	cout << "\tallows user to use item for a purpose." << endl;
+	cout << "\tcertain items do something in the right situation." << endl;
 	return 0;
 }
 
@@ -101,7 +103,7 @@ int hit() {
 	if(npc == NULL){
 		return 0;
 	} else {
-		cout << "Which object would you like to hit them with? (specify index of object in inventory, or -1 for fists)";
+		cout << "Which object would you like to hit them with? (specify index of object in inventory, or -1 for fists)" << endl;
 		int input = stoi(getInput());
 		if ( input == -1 ){
 			npc->relationship_status = "enemy";	
@@ -141,92 +143,92 @@ int npc_turn() {
 	return 0;
 }
 
-int parseInput(string input) {
-	if (input == "help") {
-		help();
-	} else if (input == "hit"){
-		hit();
-	} else if (input == "move"){
-		cout << "Which cardinal direction would you like to move?" << endl;
-		string input = getInput();	
-		int suggestedDirection = getDirection(input);
-		if (suggestedDirection == DIRECTION_ERROR){
-			cout << "That  is not a valid direction\n";
-		} else{
-			if (currentChunk->adjacentChunks[suggestedDirection] !=NULL && !(currentChunk->isBlocked[suggestedDirection])){
-				if(suggestedDirection != doorEntered){
-					for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
-						if ((*i)->health >0 && (*i)->relationship_status != "friend"){
-							cout << "There is someone blocking your path.\n";
-							return 0;
-						}
+int move() {
+	cout << "Which cardinal direction would you like to move?" << endl;
+	string input = getInput();
+	int suggestedDirection = getDirection(input);
+	if (suggestedDirection == DIRECTION_ERROR){
+		cout << "That  is not a valid direction\n";
+	} else {
+		if (currentChunk->adjacentChunks[suggestedDirection] !=NULL && !(currentChunk->isBlocked[suggestedDirection])){
+			if(suggestedDirection != doorEntered){
+				for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
+					if ((*i)->health >0 && (*i)->relationship_status != "friend"){
+						cout << "There is someone blocking your path.\n";
+						return 0;
 					}
 				}
-				doorEntered = (suggestedDirection +2)%4; // this notes the door entered into the new room(if you walk north you enter the south door)
-				currentChunk->isVisited = true;
-				currentChunk = currentChunk->adjacentChunks[suggestedDirection];
-				currentChunk->print();
-			} else{
-				cout << "That way is blocked maybe try to use something to open it.\n";
 			}
+			doorEntered = (suggestedDirection +2)%4; // this notes the door entered into the new room(if you walk north you enter the south door)
+			currentChunk->isVisited = true;
+			currentChunk = currentChunk->adjacentChunks[suggestedDirection];
+			currentChunk->print();
+		} else {
+			cout << "That way is blocked. I wonder if there's a way to open it?\n";
 		}
-	} else if (input == "look"){
-		currentChunk->printAll();
-	} else if(input == "grab"){
+	}
+	return 0;
+}
 
-                Object empty("-1");
-                int n= 0;
-                for(int i = 0; i< 5; i++){
+int grab() {
+	Object empty("-1");
+	int n= 0;
+	for(int i = 0; i< 5; i++){
+		 if(character.inventory[i]->id == empty.id){
+			 if(!currentChunk->objects.empty()){
+				 character.inventory[i] = currentChunk->objects[0];
+				 currentChunk->objects.erase(currentChunk->objects.begin()+ 0);
+				 cout << "You have grabbed the " << character.inventory[i]->name << "." << endl;
+				 break;
+			 }
+			 cout<< "There are no objects to grab here." << endl;
+			 break;
+		 }
+		 n++;
 
-                    if(character.inventory[i]->id == empty.id){
-                        if(!currentChunk->objects.empty()){
-                            character.inventory[i] = currentChunk->objects[0];
-                            currentChunk->objects.erase(currentChunk->objects.begin()+ 0);
-                            cout << "You have grabbed the " << character.inventory[i]->name << endl;;
-                            break;
-                        }
-                        cout<< "No objects to grab here" << endl;
-                        break;
-                    }
-                    n++;
-                } 
-            
-                if(n == 5){
-                    cout << "Looks like your inventory is full\n Drop an item and try again" << endl;  
-                     
-                }
+		 if(n == 5){
+			 cout << "Your inventory is full.\n Drop an item if you wish to pick up another." << endl;
+		 }
+	}
+	return 0;
+}
 
-        }else if(input =="drop"){
-	    cout << "Name the index of the item you want to drop" << endl;
-	    int input = stoi(getInput());	
-            if(input < 5 && input >= 0 && character.inventory[input]->id != "-1"){
-                currentChunk->objects.push_back(character.inventory[input]);
-                character.inventory.erase(character.inventory.begin() + input);
-				Object* empty = new Object("-1");
-				character.inventory.push_back(empty);
-                cout << "You have dropped the "<< currentChunk->objects.back()->name << endl;
+int drop() {
+	cout << "What's the index of the item you want to drop?" << endl;
+	int input = stoi(getInput());
+	if(input < 5 && input >= 0 && character.inventory[input]->id != "-1"){
+		currentChunk->objects.push_back(character.inventory[input]);
+		character.inventory.erase(character.inventory.begin() + input);
+		Object* empty = new Object("-1");
+		character.inventory.push_back(empty);
+		cout << "You have dropped the "<< currentChunk->objects.back()->name << "." << endl;
+	} else {
+		cout << "This is not a valid index" << endl;
+	}
+	return 0;
+}
 
-            }else{
-                cout << "This is not a valid index" << endl;
-            }
-            
+int talk() {
+	cout << "Who would you like to talk to?\n";
+	NPC* npc = NPCSelector(currentChunk);
+	if(npc != NULL){
+		npc->talkTo();
+	}
+	return 0;
+}
 
+int fire() {
+	if (currentChunk->id == "2" && currentChunk->isBlocked[1]){
+		cout << "You light a fire by the fog, and it immediately disapates, opening up the path to the north\n";
+		currentChunk->isBlocked[1] = false;
+		currentChunk->isCompleted = true;
+	} else {
+		cout << "You start gathering kindling and tinder to start a fire, but question why you need one in the first place, and stop.\n";
+	}
+	return 0;
+}
 
-	}else if(input == "talk") {
-		cout << "Who would you like to talk to?\n";
-		NPC* npc = NPCSelector(currentChunk);
-		if(npc != NULL){
-			npc->talkTo();
-		}		
-	}  else if (input == "fire"){
-		if (currentChunk->id == "2" && currentChunk->isBlocked[1]){
-			cout << "You light a fire by the fog, and it immediately disapates, opening up the path to the north\n";
-			currentChunk->isBlocked[1] = false;
-			currentChunk->isCompleted = true;
-		} else{
-			cout << "You start to gather wood to start a fire, but quickly start thinking to yourself, if it is worth the effort.\n";
-		}
-	} else if (input == "examine"){
+int examine() {
 		cout << "Which item would you like to examine?\n";
 		string input = getInput();
 		for (auto i = currentChunk->objects.begin(); i != currentChunk->objects.end(); i++){
@@ -244,10 +246,10 @@ int parseInput(string input) {
 			}
 		}
 		cout << "You could not find " << input << " to examine.\n";
-	}else if (input == "inventory"){
-		printObjectVector(true, character.inventory);
-	}else if(input == "use"){
+	return 0;
+}
 
+int use() {
                 if((currentChunk->id == "6" && currentChunk->isBlocked[1]) || (currentChunk->id == "7" && currentChunk->isBlocked[0])){
                     cout << "Which item would you like to use?"<< endl;
                     string input = getInput();
@@ -270,8 +272,10 @@ int parseInput(string input) {
                     cout << "Nothing to use here. Perhaps try grabbing it" << endl;
 
                 }
+	return 0;
+}
 
-	} else if (input == "wish"){
+int wish() {
 		if (currentChunk->id != "5"){
 			cout << "You look up at the sky and see a shooting star. You state your deepest wish in your heart and hope it comes true." << endl;
 		} else if (currentChunk->npcs[0]->health <= 0){
@@ -294,9 +298,38 @@ int parseInput(string input) {
 			}
 		}
 		endgame("good");
+	return 0;
+}
+
+int parseInput(string input) {
+	if (input == "help" || input == "h") {
+		help();
+	} else if (input == "hit" || input == "x"){
+		hit();
+	} else if (input == "move" || input == "m"){
+		move();
+	} else if (input == "look" || input == "l"){
+		cout << "\e[1m" << currentChunk->name << "\e[0m" << endl; 
+		currentChunk->printAll();
+	} else if(input == "grab" || input == "g"){
+		grab();
+        }else if(input =="drop" || input == "d"){
+		drop();
+	}else if(input == "talk" || input == "t") {
+		talk();
+	}  else if (input == "fire"){
+		fire();
+	} else if (input == "examine" || input == "e"){
+		examine();
+	}else if (input == "inventory" || input == "i"){
+		printObjectVector(true, character.inventory);
+	}else if(input == "use" || input == "u"){
+		use();
+	} else if (input == "wish"){
+		wish();
 	} 
 	else {
-		cout << "That's not a phrase I'm familiar with" << endl;	
+		cout << "That's not a command I'm familiar with" << endl;	
 	}
 	return 0;
 }
