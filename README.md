@@ -1,5 +1,5 @@
 # Forest of Broken Dreams
-a text-based adventure by John Hoeksema, Sabin Litchfield, and Carlos Murillo
+a text-based adventure by John Hoeksema, Sabin Litchfield, and Carlos Murillo <br />
 retro MUD for Hackers in the Bazaar
 
 ## Instructions to build and run
