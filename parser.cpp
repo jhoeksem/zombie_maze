@@ -326,13 +326,13 @@ int examine() {
 int use() {
 	cout << "Which item would you like to use?"<< endl;
 	string input = getInput();
-	if(currentChunk->id =="6" && currentChunk->isBlocked[1] && (input == "rock")){
-		currentChunk->isBlocked[NORTH] = false;
+	if(currentChunk->id =="300" && currentChunk->isBlocked[0] && (input == "rock")){
+		currentChunk->isBlocked[EAST] = false;
 		currentChunk->isCompleted = true;
 		cout << "You used the rock to break the glass\nThe window is now open for you" <<endl;
 		return 0;
-	}else if(currentChunk->id == "7" && currentChunk->isBlocked[0] && (input == "key")){
-		currentChunk->isBlocked[EAST] = false;
+	}else if(currentChunk->id == "301" && currentChunk->isBlocked[3] && (input == "key")){
+		currentChunk->isBlocked[SOUTH] = false;
 		currentChunk->isCompleted = true;
 		cout << "You used the key to open the basement door\nThe door is now open for you" <<endl;
 		return 0;
