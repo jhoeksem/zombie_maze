@@ -40,4 +40,5 @@ void PopulateMap();
 NPC* NPCSelector(Map* currentChunk);
 Directions getDirection(string input);
 string getStringFromDirection(int direction);
+const int MAX_CHUNK_NUM = 512;
 #endif // PARSER_H

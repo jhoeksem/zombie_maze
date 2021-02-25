@@ -7,7 +7,7 @@
 #include "parser.h"
 using namespace std;
 
-Map* chunks [128];
+Map* chunks [MAX_CHUNK_NUM];
 Map::Map(string mapId){
     id = mapId;
     string line;
@@ -90,7 +90,7 @@ void PopulateMap(){
         if(object->id != "-1"){
             size_t stringLen = object->whichRoom.length();
             int roomId = stoi(object->whichRoom, &stringLen);
-            if (roomId >=0 && roomId <128 && chunks[roomId]){
+            if (roomId >=0 && roomId <MAX_CHUNK_NUM && chunks[roomId]){
                 chunks[roomId]->objects.push_back(object);
             } else{
                 cerr << "Recieved an invalid roomId " << roomId << "For object "<< objectNum << endl;
@@ -109,7 +109,7 @@ void PopulateMap(){
         if(npc->id != "-1"){
             size_t stringLen = npc->whichRoom.length();
             int roomId = stoi(npc->whichRoom, &stringLen);
-            if (roomId >=0 && roomId <128 && chunks[roomId]){
+            if (roomId >=0 && roomId <MAX_CHUNK_NUM && chunks[roomId]){
                 chunks[roomId]->npcs.push_back(npc);
             } else{
                 cerr << "Recieved an invalid roomId " << roomId << "For object "<< npcNum << endl;
@@ -238,7 +238,7 @@ void printMap(Map* map, bool* visited){
     }
     size_t length = map->id.length();
     int number = stoi(map->id, &length);
-    if ( number >=0 && number < 128){
+    if ( number >=0 && number < MAX_CHUNK_NUM){
         if (!visited[number]){
             visited[number] = true;
             map->DebugPrintChunk();
@@ -255,7 +255,7 @@ void printMap(Map* map, bool* visited){
 int testMap (){
     memset((void*)&chunks, 0, sizeof(chunks));
     Map* map = BuildMap("0");
-    bool visited[128];
+    bool visited[MAX_CHUNK_NUM];
     memset((void*)&visited, 0, sizeof(visited));
     printMap(map, visited);
     return 0;
