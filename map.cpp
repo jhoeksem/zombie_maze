@@ -209,7 +209,7 @@ void Map::printAll(){
 	} else {
 		cout << "You spot the following characters in the clearing:" << endl;
 		for (auto  i = aliveNPC.begin(); i != aliveNPC.end(); i++){
-			cout << "A " << (*i)->name << endl;
+			cout << (*i)->name << endl;
 		}
 	}
 }

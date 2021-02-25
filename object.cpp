@@ -74,7 +74,7 @@ void printObjectVector(bool isInventory, vector <Object*> objects){
 		} else{
 			cout << "You spot the following objects in the clearing:" << endl;
 			for (auto i = objects.begin(); i!= objects.end(); i++){
-				cout << "A " << (*i)->name << endl;
+				cout << (*i)->name << endl;
 			}
 		}
 	}
