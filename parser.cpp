@@ -255,9 +255,13 @@ int parseInput(string input) {
                     if(currentChunk->id =="6" && (input == "rock")){
                         currentChunk->isBlocked[NORTH] = false;
                         currentChunk->isCompleted = true;
+                        cout << "You used the rock to break the glass\nThe window is now open for you" <<endl;
+                        return 0;
                     }else if(currentChunk->id == "7" && (input == "key")){
                         currentChunk->isBlocked[EAST] = false;
                         currentChunk->isCompleted = true;
+                        cout << "You used the key to open the basement door\nThe door is now open for you" <<endl;
+                        return 0;
                         
 
                     }
