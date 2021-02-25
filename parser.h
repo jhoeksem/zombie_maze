@@ -19,6 +19,7 @@ int fire();
 int examine();
 int use();
 int wish();
+int status();
 int parseInput(string input);
 
 #endif // PARSER_H

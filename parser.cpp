@@ -97,6 +97,8 @@ int help() {
 	cout << "use\t(u)" << endl;
 	cout << "\tallows user to use item for a purpose." << endl;
 	cout << "\tcertain items do something in the right situation." << endl;
+	cout << "status\t(s)" << endl;
+	cout << "\tallows user to check the health status of their character." << endl;
 	return 0;
 }
 
@@ -328,6 +330,13 @@ int wish() {
 	return 0;
 }
 
+int status() {
+	string health;
+	health = character.health_status();
+	cout << health << endl;
+	return 0;
+}
+
 int parseInput(string input) {
 	if (input == "help" || input == "h") {
 		help();
@@ -356,6 +365,8 @@ int parseInput(string input) {
 		paths();
 	} else if (input == "wish"){
 		wish();
+	} else if (input == "status" || input == "s"){
+		status();
 	} 
 	else {
 		cout << "That's not a command I'm familiar with" << endl;	
