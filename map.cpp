@@ -174,6 +174,19 @@ Directions getDirection(string input){
         return DIRECTION_ERROR;
     }
 }
+string getStringFromDirection(int direction){
+    if(direction == EAST){
+        return "east";
+    } else if(direction == NORTH){
+        return "north";
+    } else if(direction == WEST){
+        return "west";
+    } else if(direction == SOUTH){
+        return "south";
+    } else {
+        return "";
+    }
+}
 void Map::printAll(){
         if (isCompleted){
             cout << postDescription << endl;

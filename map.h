@@ -39,4 +39,5 @@ int testMap ();
 void PopulateMap();
 NPC* NPCSelector(Map* currentChunk);
 Directions getDirection(string input);
+string getStringFromDirection(int direction);
 #endif // PARSER_H
