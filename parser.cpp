@@ -359,7 +359,7 @@ int use() {
 }
 
 int wish() {
-		if (currentChunk->id != "5"){
+		if (currentChunk->id != "10"){
 			cout << "You look up at the sky and see a shooting star. You state your deepest wish in your heart and hope it comes true." << endl;
 		} else if (currentChunk->npcs[0]->health <= 0){
 			endgame("worst");
