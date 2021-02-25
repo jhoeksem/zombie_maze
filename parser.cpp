@@ -251,6 +251,39 @@ void paths(){
 	}
 }
 
+bool pacify(string item, string mapId, int numEnemy){
+	int index = 0;
+	for (auto i = character.inventory.begin(); i != character.inventory.end(); i++){
+		if((*i)->name == item){
+			break;
+		}
+		index++;
+	}
+	unsigned int numEnemy2 = numEnemy;
+	if (index > 4){
+		cout << "You do not own that item." << endl;
+		return -1;
+	} else if (currentChunk->id == mapId){
+		if (currentChunk->npcs.size()< numEnemy2){
+			return 0;
+		}
+		for (int i = 0; i < numEnemy; i++){
+			if (currentChunk->npcs[i]->health <=0){
+				return 0;
+			}
+		}
+		for (int i = 0; i < numEnemy; i++){
+			currentChunk->npcs[i]->relationship_status = "friend";
+		}
+		character.inventory.erase(character.inventory.begin() + index);
+		Object* empty = new Object("-1");
+		character.inventory.push_back(empty);
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 int examine() {
 		cout << "Which item or npc would you like to examine?\n";
 		string input = getInput();
@@ -280,42 +313,32 @@ int examine() {
 }
 
 int use() {
-	if((currentChunk->id == "3") || (currentChunk->id == "6" && currentChunk->isBlocked[1]) || (currentChunk->id == "7" && currentChunk->isBlocked[0])){
-		cout << "Which item would you like to use?"<< endl;
-		string input = getInput();
-		if(currentChunk->id =="6" && (input == "rock")){
-			currentChunk->isBlocked[NORTH] = false;
-			currentChunk->isCompleted = true;
-			cout << "You used the rock to break the glass\nThe window is now open for you" <<endl;
-			return 0;
-		}else if(currentChunk->id == "7" && (input == "key")){
-			currentChunk->isBlocked[EAST] = false;
-			currentChunk->isCompleted = true;
-			cout << "You used the key to open the basement door\nThe door is now open for you" <<endl;
-			return 0;
+	cout << "Which item would you like to use?"<< endl;
+	string input = getInput();
+	if(currentChunk->id =="6" && currentChunk->isBlocked[1] && (input == "rock")){
+		currentChunk->isBlocked[NORTH] = false;
+		currentChunk->isCompleted = true;
+		cout << "You used the rock to break the glass\nThe window is now open for you" <<endl;
+		return 0;
+	}else if(currentChunk->id == "7" && currentChunk->isBlocked[0] && (input == "key")){
+		currentChunk->isBlocked[EAST] = false;
+		currentChunk->isCompleted = true;
+		cout << "You used the key to open the basement door\nThe door is now open for you" <<endl;
+		return 0;
 
-		} else if (input == "locket"){
-			int index = 0;
-			for (auto i = character.inventory.begin(); i != character.inventory.end(); i++){
-				if((*i)->name == input){
-					break;
-				}
-				index++;
-			}
-			if (index > 4){
-				cout << "You do not own that item." << endl;
-			} else if (currentChunk->id =="3"){
-				if (currentChunk->npcs.size()>1 && currentChunk->npcs[0]->health >0 && currentChunk->npcs[1]->health >0){
-					cout <<"As you pull out the locket the pair look at you with wide eyes. The Witch says son softly and she firmly grasps the locket and the knight hugs her." << endl;
-					currentChunk->npcs[0]->relationship_status = "friend";
-					currentChunk->npcs[1]->relationship_status = "friend";
-					character.inventory.erase(character.inventory.begin() + index);
-					Object* empty = new Object("-1");
-					character.inventory.push_back(empty);
-				}
-			} else{
-				cout << "You look at the locket and admire its beauty." <<endl;
-			}
+	} else if (input == "locket"){
+		int worked= pacify(input, "304", 2);
+		if(worked == 1){
+			cout <<"As you pull out the locket the pair look at you with wide eyes. The Witch says son softly and she firmly grasps the locket and the knight hugs her." << endl;
+		} else if (worked == 0){
+			cout << "You look at the locket and admire its beauty." << endl;
+		}
+	} else if (input == "bone"){
+		int worked = pacify(input, "305", 1);
+		if(worked == 1){
+			cout << "The wolf happily starts chewing on the bone and wags its tail. It seems happy." << endl;
+		} else if (worked == 0){
+			cout << "You are not sure how to use the bone here." << endl;
 		}else{
 			cout << "Nothing by that name here" << endl;
 		}
