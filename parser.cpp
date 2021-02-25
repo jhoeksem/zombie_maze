@@ -164,6 +164,18 @@ int move() {
 					}
 				}
 			}
+			cout << "[🧭]\tyou moved ";
+			if (suggestedDirection == 0){
+				cout << "east";
+			} else if (suggestedDirection == 1){
+				cout << "north";
+			} else if (suggestedDirection == 2){
+				cout << "west";
+			} else {
+				cout << "south";
+			}
+			cout << "." << endl;
+
 			doorEntered = (suggestedDirection +2)%4; // this notes the door entered into the new room(if you walk north you enter the south door)
 			currentChunk->isVisited = true;
 			currentChunk = currentChunk->adjacentChunks[suggestedDirection];
@@ -289,21 +301,21 @@ int examine() {
 		string input = getInput();
 		for (auto i = currentChunk->objects.begin(); i != currentChunk->objects.end(); i++){
 			if (input == (*i)->name){
-				cout << "You examine the " << (*i) ->name << ".\n";
+				cout << "[🔍]\tYou examine the " << (*i) ->name << ".\n";
 				cout << (*i)->description << endl;
 				return 0;
 			}
 		}
 		for (auto i = character.inventory.begin(); i != character.inventory.end(); i++){
 			if (input == (*i)->name){
-				cout << "You examine the " << (*i) ->name << ".\n";
+				cout << "[🔍]\tYou examine the " << (*i) ->name << ".\n";
 				cout << (*i)->description << endl;
 				return 0;
 			}
 		}
 		for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 			if (input == (*i)->name){
-				cout << "You examine the " << (*i) ->name << ".\n";
+				cout << "[🔍]\tYou examine the " << (*i) ->name << ".\n";
 				cout << (*i)->description << endl;
 				return 0;
 			}
@@ -376,7 +388,7 @@ int wish() {
 int status() {
 	string health;
 	health = character.health_status();
-	cout << health << endl;
+	cout << "[🌡 ]\t" << health << endl;
 	return 0;
 }
 
