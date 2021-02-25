@@ -339,8 +339,6 @@ int use() {
 			cout << "The wolf happily starts chewing on the bone and wags its tail. It seems happy." << endl;
 		} else if (worked == 0){
 			cout << "You are not sure how to use the bone here." << endl;
-		}else{
-			cout << "Nothing by that name here" << endl;
 		}
 	} else{
 		cout << "Nothing to use here. Perhaps try grabbing it" << endl;
