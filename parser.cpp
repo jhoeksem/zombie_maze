@@ -251,7 +251,7 @@ void paths(){
 	}
 }
 
-bool pacify(string item, string mapId, int numEnemy){
+int pacify(string item, string mapId, int numEnemy){
 	int index = 0;
 	for (auto i = character.inventory.begin(); i != character.inventory.end(); i++){
 		if((*i)->name == item){
