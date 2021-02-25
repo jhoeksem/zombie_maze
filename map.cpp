@@ -180,39 +180,30 @@ void Map::printAll(){
             cout << description << endl;
         }
         printObjectVector(false, objects);
-        for (auto  i = npcs.begin(); i != npcs.end(); i++){
-            (*i)->print();
-        }
+	cout << endl;
+        
+	// count NPCs
+	vector <NPC*> aliveNPC;
+	for (auto  i = npcs.begin(); i != npcs.end(); i++){
+		if((*i)->health >0){
+			aliveNPC.push_back((*i));
+		}
+	}
+	// disp NPCs
+	if (aliveNPC.size() <= 0) {
+		cout << "You cannot see any signs of life in the clearing." << endl;
+	} else {
+		cout << "You spot the following characters in the clearing:" << endl;
+		for (auto  i = aliveNPC.begin(); i != aliveNPC.end(); i++){
+			cout << "A " << (*i)->name << endl;
+		}
+	}
 }
 void Map::print(){
-        cout << "Entering the area called: " << name <<endl;
+    cout << "\e[1m" << name << "\e[0m" << endl;
     if(!isVisited){
         printAll();
-    } else {
-        vector <NPC*> aliveNPC;
-        for (auto  i = npcs.begin(); i != npcs.end(); i++){
-            if((*i) ->health >0){
-                aliveNPC.push_back((*i));
-            }
-        }
-        if (aliveNPC.size() <= 0) {
-            cout << "You cannot see any signs of life within the area.\n";
-        }else if(aliveNPC.size() == 1){
-            cout << "The creature in the area is called " << aliveNPC[0]->name << endl;
-        } else{
-            cout << "The creatures in the area are called ";
-            unsigned int count  = 0;
-            for (auto  i = aliveNPC.begin(); i != aliveNPC.end(); i++){
-                    if (count == aliveNPC.size() -1){
-                        cout << "and " << (*i)->name << endl;
-                    } else{
-                        cout << (*i)->name << ", ";
-                    }
-                    count++;
-            }
-        }
-        
-    }
+    } 
 }
 
 
