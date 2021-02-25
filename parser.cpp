@@ -92,6 +92,8 @@ int help() {
 	cout << "\tcommand will prompt user for the name of the npc they wish to talk to." << endl;
 	cout << "inventory (i)" <<endl;
 	cout << "\tallows user to see the names of items in the inventory." << endl;
+	cout << "paths\t(p)" << endl;
+	cout << "\tprints out the current paths in the room." << endl;
 	cout << "use\t(u)" << endl;
 	cout << "\tallows user to use item for a purpose." << endl;
 	cout << "\tcertain items do something in the right situation." << endl;
@@ -228,6 +230,24 @@ int fire() {
 	return 0;
 }
 
+void paths(){
+	int count = 0;
+	for (int i = 0; i < 4; i ++){
+		if (currentChunk->adjacentChunks[i] != NULL){
+			count++;
+				cout << "The " << getStringFromDirection(i) << " path";
+			if (currentChunk->isBlocked[i]){
+				cout << " is currently blocked." << endl;
+			} else{
+				cout << " is open." << endl;
+			}
+		}
+	}
+	if(count <= 0){
+		cout << "You are trapped in the room with no paths out of it." << endl;
+	}
+}
+
 int examine() {
 		cout << "Which item would you like to examine?\n";
 		string input = getInput();
@@ -325,6 +345,8 @@ int parseInput(string input) {
 		printObjectVector(true, character.inventory);
 	}else if(input == "use" || input == "u"){
 		use();
+	} else if (input == "paths" || input == "p"){
+		paths();
 	} else if (input == "wish"){
 		wish();
 	} 
