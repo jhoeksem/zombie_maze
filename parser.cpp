@@ -158,7 +158,6 @@ int move() {
 			if(suggestedDirection != doorEntered){
 				for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 					if ((*i)->health >0 && (*i)->relationship_status != "friend"){
-						cout << (*i)->name << " blocks "<<(*i)->relationship_status <<endl;
 						cout << "There is someone blocking your path.\n";
 						return 0;
 					}
@@ -345,7 +344,7 @@ int use() {
 		} else if (worked == 0){
 			cout << "You look at the locket and admire its beauty." << endl;
 		}
-	} else if (input == "bone"){
+	} else if (input == "Bone"){
 		int worked = pacify(input, "305", 1);
 		if(worked == 1){
 			cout << "The wolf happily starts chewing on the bone and wags its tail. It seems happy." << endl;
