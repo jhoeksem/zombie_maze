@@ -83,7 +83,7 @@ int help() {
 	cout << "\tallows user to drop an item from the inventory onto ground." << endl;
 	cout << "\tcommand will prompt user to select the index of the item they wish to drop." << endl;
 	cout << "examine\t(e)" << endl;
-	cout << "\tallows user to see a description of any item on the ground or inventory." << endl;
+	cout << "\tallows user to see a description of any npc or item on the ground or inventory." << endl;
 	cout << "\tcommand will prompt user for the name of the item they wish to examine." << endl;
 	cout << "look\t(l)" << endl;
 	cout << "\tallows the user to see all of the information of the current room." << endl;
@@ -249,7 +249,7 @@ void paths(){
 }
 
 int examine() {
-		cout << "Which item would you like to examine?\n";
+		cout << "Which item or npc would you like to examine?\n";
 		string input = getInput();
 		for (auto i = currentChunk->objects.begin(); i != currentChunk->objects.end(); i++){
 			if (input == (*i)->name){
@@ -259,6 +259,13 @@ int examine() {
 			}
 		}
 		for (auto i = character.inventory.begin(); i != character.inventory.end(); i++){
+			if (input == (*i)->name){
+				cout << "You examine the " << (*i) ->name << ".\n";
+				cout << (*i)->description << endl;
+				return 0;
+			}
+		}
+		for (auto i = currentChunk->npcs.begin(); i != currentChunk->npcs.end(); i++){
 			if (input == (*i)->name){
 				cout << "You examine the " << (*i) ->name << ".\n";
 				cout << (*i)->description << endl;
